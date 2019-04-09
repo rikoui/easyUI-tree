@@ -1,0 +1,133 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+	<head>
+		<title>Tree</title>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<link rel="stylesheet" type="text/css" href="js/themes/default/tree.css">
+		<link rel="stylesheet" type="text/css" href="js/themes/default/easyui.css">
+		<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+		<script type="text/javascript" src="js/jquery.easyui.min.js"></script>
+		<script type="text/javascript">
+			$(function(){
+				$('#tree').tree({
+					lines : true,
+					data: [{
+						text: 'X6006.01.00',
+						children: [{
+							text: 'X6006.03.01',
+							children : [
+								{text : 'WZ502.01.030'},
+								{text : 'A'},
+								{text : 'B'}
+							]
+						}]
+					},{
+						text: 'X6006.02.00',
+						children: [{
+							text: 'X6006.03.01',
+							children : [
+								{text : 'WZ502.01.030'},
+								{text : 'A'},
+								{text : 'B'}
+							]
+						}]
+					}]
+				});
+
+				$('#add_node').dialog({
+				    title: '添加节点',
+				    width: 400,
+				    height: 200,
+				    modal: true,
+				    closed : true,
+					buttons:[{
+						text:'保存',
+						handler:function(){
+							var addName = $('#addName').val();
+							var node = $('#tree').tree('getSelected');
+							$('#tree').tree('append', {
+								parent : (node ? node.target : null),
+								data : [{text : addName}]
+							});
+							$('#add_node').dialog('close');
+						}
+					},{
+						text:'关闭',
+						handler:function(){
+							$('#add_node').dialog('close');
+						}
+					}]
+				});
+
+				$('#edit_node').dialog({
+				    title: '编辑节点',
+				    width: 400,
+				    height: 200,
+				    modal: true,
+				    closed : true,
+					buttons:[{
+						text:'保存',
+						handler:function(){
+							var editName = $('#editName').val();
+							var node = $('#tree').tree('getSelected');
+							$('#tree').tree('update', {
+								target : node.target,
+								text : editName
+							});
+							$('#edit_node').dialog('close');
+						}
+					},{
+						text:'关闭',
+						handler:function(){
+							$('#edit_node').dialog('close');
+						}
+					}]
+				});
+
+
+
+				$('#btn_add').bind('click', function () {
+					$("#addName").val("");
+					$('#add_node').dialog("open");					
+			    })
+
+			    $('#btn_edit').bind('click', function () {
+			    	var node = $('#tree').tree('getSelected');
+			    	if (node == null) {
+			    		$.messager.alert('警告','请选择要编辑的节点...');  
+			    		return;
+			    	}
+			    	$("#editName").val(node.text);
+			    	$('#edit_node').dialog("open");
+			    })
+
+			    $('#btn_del').bind('click', function () {
+			    	var node = $('#tree').tree('getSelected');
+					$('#tree').tree('remove', node.target);
+			    })
+			})
+		</script>
+	</head>
+  
+	<body>
+		<a id="btn_add" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add'">添加节点</a>
+		<a id="btn_edit" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add'">编辑节点</a> 
+		<a id="btn_del" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add'">删除节点</a> 
+		<hr>
+		<div class="easyui-tree">
+			<ul id="tree"></ul>
+		</div>
+		<div id="add_node">
+			<br>
+			<br>
+			<br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;节点名称：<input type="text" name="addName" id="addName" placeholder="请输入节点名称..." />
+		</div>
+		<div id="edit_node">
+			<br>
+			<br>
+			<br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;节点名称：<input type="text" name="editName" id="editName" placeholder="请输入节点名称..." />
+		</div>
+	</body>
+</html>
