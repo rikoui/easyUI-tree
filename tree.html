@@ -43,8 +43,8 @@
 					buttons:[{
 						text:'保存',
 						handler:function(){
-							var addName = $('#addName').val();
-							var node = $('#tree').tree('getSelected');
+							const addName = $('#addName').val();
+							const node = $('#tree').tree('getSelected');
 							$('#tree').tree('append', {
 								parent : (node ? node.target : null),
 								data : [{text : addName}]
@@ -68,8 +68,8 @@
 					buttons:[{
 						text:'保存',
 						handler:function(){
-							var editName = $('#editName').val();
-							var node = $('#tree').tree('getSelected');
+							const editName = $('#editName').val();
+							const node = $('#tree').tree('getSelected');
 							$('#tree').tree('update', {
 								target : node.target,
 								text : editName
@@ -84,15 +84,13 @@
 					}]
 				});
 
-
-
 				$('#btn_add').bind('click', function () {
 					$("#addName").val("");
 					$('#add_node').dialog("open");					
 			    })
 
 			    $('#btn_edit').bind('click', function () {
-			    	var node = $('#tree').tree('getSelected');
+			    	const node = $('#tree').tree('getSelected');
 			    	if (node == null) {
 			    		$.messager.alert('警告','请选择要编辑的节点...');  
 			    		return;
@@ -102,7 +100,7 @@
 			    })
 
 			    $('#btn_del').bind('click', function () {
-			    	var node = $('#tree').tree('getSelected');
+			    	const node = $('#tree').tree('getSelected');
 					$('#tree').tree('remove', node.target);
 			    })
 			})
